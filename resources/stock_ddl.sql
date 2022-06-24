@@ -3,14 +3,26 @@ CREATE TABLE STOCKS (
     id INT NOT NULL AUTO_INCREMENT,
     symbol VARCHAR(20) NOT NULL,
     name VARCHAR(255) NOT NULL,
-    Last_Sale VARCHAR(15) NOT NULL,
-    Net_Change VARCHAR(10),
-    Pct_Change VARCHAR(10) NOT NULL,
     Market_Cap VARCHAR(20),
     Country VARCHAR(20),
     IPO_Year VARCHAR(6),
-    Volume VARCHAR(10) NOT NULL,
     Sector VARCHAR(25),
     Industry VARCHAR(70),
-    PRIMARY KEY(id)
+    PRIMARY KEY(id, symbol),
+    UNIQUE KEY (symbol)
 );
+
+
+DROP TABLE IF EXISTS STOCK_DAILY;
+CREATE TABLE STOCK_DAILY(
+    ID INT NOT NULL AUTO_INCREMENT,
+    symbol VARCHAR(20) NOT NULL,
+    closing_dt DATE NOT NULL,
+    Adjusting_close VARCHAR(10),
+    Close varchar(10),
+    High VARCHAR(10),
+    LOW VARCHAR(10),
+    VOLUME VARCHAR(25) ,
+    PRIMARY KEY(ID),
+    FOREIGN KEY (SYMBOL) REFERENCES STOCKS(symbol)
+    );

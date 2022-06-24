@@ -12,11 +12,13 @@ def load_db(user, password, database):
     mycur = cnx.cursor()
     # converting dataframe into tuples
     stock_df = stock_df.astype(object).where(pd.notnull(stock_df), None)
+    # removing unneeded columns
+    stock_df = stock_df[stock_df.columns[~stock_df.columns.isin(['Last Sale', 'Net Change', '% Change', 'Volume'])]]
     stock_tuples = [tuple(x) for x in stock_df.to_numpy()]
 
     # Write the insert query
-    query = 'INSERT INTO STOCKS (symbol, name, Last_Sale, Net_Change, Pct_Change, Market_Cap, Country, IPO_Year, Volume, Sector, Industry)\
-                                VALUES (%s, %s, %s, %s,%s, %s, %s, %s,%s, %s, %s)'
+    query = 'INSERT INTO STOCKS (symbol, name, Market_Cap, Country, IPO_Year, Sector, Industry)\
+                                VALUES (%s, %s, %s, %s,%s, %s, %s)'
 
     # Inserting
     try:
