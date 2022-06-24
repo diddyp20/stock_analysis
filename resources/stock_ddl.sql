@@ -1,0 +1,16 @@
+DROP TABLE  IF EXISTS STOCKS;
+CREATE TABLE STOCKS (
+    id INT NOT NULL AUTO_INCREMENT,
+    symbol VARCHAR(20) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    Last_Sale VARCHAR(15) NOT NULL,
+    Net_Change VARCHAR(10),
+    Pct_Change VARCHAR(10) NOT NULL,
+    Market_Cap VARCHAR(20),
+    Country VARCHAR(20),
+    IPO_Year VARCHAR(6),
+    Volume VARCHAR(10) NOT NULL,
+    Sector VARCHAR(25),
+    Industry VARCHAR(70),
+    PRIMARY KEY(id)
+);
