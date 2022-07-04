@@ -27,8 +27,7 @@ def get_symbols_from_db():
     try:
         print('pulling data')
         symbols_df = pd.read_sql(
-            "Select distinct symbol from stocks\
-                        where id < 7",
+            "Select distinct symbol from stocks",
             con=db_connection)
         db_connection.dispose()
     except Exception as e:
@@ -99,3 +98,4 @@ if __name__ == '__main__':
             # Load the data into mysql
             if len(tup_data) > 0:
                 load_increment_data(tup_data)
+
