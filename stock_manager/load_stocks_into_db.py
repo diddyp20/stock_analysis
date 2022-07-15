@@ -7,7 +7,7 @@ file_location = r'C:\Users\user\Documents\BndNetworks\Projects\Stocks\resources\
 
 def load_db(user, password, database):
     stock_df = pd.read_csv(file_location)
-    cnx = mysql.connector.connect(user=f'{user}', password=f'{password}', host='localhost', database=f'{database}',
+    cnx = mysql.connector.connect(user=f'{user}', password=f'{password}', host='bnd-networks.cmhqxsvl14ql.us-east-1.rds.amazonaws.com', database=f'{database}',
                                   auth_plugin='mysql_native_password')
     mycur = cnx.cursor()
     # converting dataframe into tuples
@@ -32,4 +32,4 @@ def load_db(user, password, database):
 
 
 if __name__ == '__main__':
-    load_db('admin', 'root', 'stock_analysis')
+    load_db('admin', 'Cameroun1987', 'BNDNETWORKS')

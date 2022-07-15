@@ -9,12 +9,23 @@ import pandas as pd
 import datetime
 from pandas_datareader import data as pdr
 
-start = datetime.datetime(2022, 5, 31)
-end = datetime.datetime(2022, 6, 4)
+
+def get_date_values():
+    yr = datetime.datetime.today().strftime('%Y')
+    mn = datetime.datetime.today().strftime('%m')
+    dd = datetime.datetime.today().strftime('%d')
+
+    previous = int(dd) - 1
+    start_dt = datetime.datetime(int(yr), int(mn), previous)
+    end_dt = datetime.datetime(int(yr), int(mn), int(dd))
+    return start_dt, end_dt
+
+
+start, end = get_date_values()
 
 
 def get_daily_data_from_api():
-    query = "select distinct symbol from stocks"
+    query = "select distinct symbol from STOCKS where symbol = 'MO'"
     dm = DbMgr.DatabaseManager()
     tickers = dm.select_data(query)
     if len(tickers) > 0:
@@ -56,9 +67,23 @@ def insert_data_into_db(stocks_df):
         tup_data = [tuple(x) for x in data_df.to_numpy()]
         db_mgr.insert_data(query, tup_data)
 
-    pass
+
+def update_stock_database(stocks_df):
+    """
+    Function to update mysql database when the stock info have added into the database
+    :param stocks_df:
+    :return:
+    """
+    db_mgr = DbMgr.DatabaseManager()
+    stock_list = stocks_df.values.tolist()
+    print("updating Stock database: ")
+    db_mgr.update_table(stock_list, "STOCKS", "symbol", "LAST_UPDATED", None)
+    print("Table successfully updated ")
+    return True
 
 
 if __name__ == '__main__':
     my_stocks = get_daily_data_from_api()
     insert_data_into_db(my_stocks)
+    # update database after the api has been called
+    update_stock_database(my_stocks)
